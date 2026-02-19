@@ -30,3 +30,10 @@ class ECGDataLoader:
         self.signal = record.p_signal[:,0]
         self.fs = record.fs
         return self.signal, self.fs
+    
+    def get_segment(self, start_time, end_time):
+        # 计算起始和结束样本索引
+        start_index = int(start_time * self.fs)
+        end_index = int(end_time * self.fs)
+        # 返回信号片段
+        return self.signal[start_index:end_index]
