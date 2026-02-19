@@ -3,8 +3,9 @@ import os
 
 class ECGDataLoader:
 
-    def __init__(self, db_name = 'mitdb', record_id, save_dir = 'data'):  # 这里record_id是数据源序号
-        self.record_id = record_id
+    def __init__(self, record_id, db_name = 'mitdb', save_dir = 'data'):  # 这里record_id是数据源序号
+        self.db_name = db_name
+        self.record_id = str(record_id)
         self.save_dir = save_dir
         # 初始化数据属性
         self.record_path = os.path.join(self.save_dir, self.record_id)
@@ -14,14 +15,17 @@ class ECGDataLoader:
         self.data_import()
     
     def ensure_data_exists(self):
+        extensions = ['hea', 'dat']
+        needed_files = [f"{self.record_id}.{ext}" for ext in extensions]
+        files_exists = all(os.path.exists(os.path.join(self.save_dir, f)) for f in needed_files)
         # 构建数据文件路径
-        if not os.path.exists(self.record_path + '.dat'):
+        if not files_exists:
             print(f"数据文件不存在，正在从{self.db_name}数据库下载{self.record_id}...")
             os.makedirs(self.save_dir, exist_ok=True)
-            wfdb.dl_database(self.db_name, dl_dir=self.save_dir, records=[self.record_id])
+            wfdb.dl_files(self.db_name, dl_dir=self.save_dir, files=needed_files)
 
     def data_import(self):
-        # 读取ECG数据并赋值给属性
+        # 读取ECG数据并赋值给类属性，现在signal是信号数据，fs是采样率
         record = wfdb.rdrecord(self.record_path)
         self.signal = record.p_signal[:,0]
         self.fs = record.fs

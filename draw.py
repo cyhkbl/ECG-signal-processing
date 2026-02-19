@@ -1,8 +1,6 @@
 import matplotlib.pyplot as plt
 from dataloader import *
 
-signal, fs = data_import()
-
 def draw(signal, fs):
     t = [i/fs for i in range(len(signal))]
     plt.figure()
