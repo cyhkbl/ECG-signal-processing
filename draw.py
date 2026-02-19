@@ -1,5 +1,5 @@
-import matplotlib as plt
-from data import *
+import matplotlib.pyplot as plt
+from dataloader import *
 
 signal, fs = data_import()
 

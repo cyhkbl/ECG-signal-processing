@@ -1,4 +1,4 @@
-from data import *
+from dataloader import *
 import numpy as np
 from scipy.signal import butter, filtfilt, iirnotch
 
