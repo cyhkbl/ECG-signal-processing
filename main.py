@@ -4,6 +4,7 @@ import filter
 import rwave
 import matplotlib.pyplot as plt
 import beat
+import abnormal
 
 # 载入数据
 origin = dataloader.ECGDataLoader(record_id='100')  # 这里record_id是数据源序号，我选择100号数据
@@ -27,3 +28,7 @@ rr_interval_time, instant_heartrate, average_heartrate = beat.get_heartrate(rwav
 print(f"最大瞬时心率: {max(instant_heartrate):.2f} bpm") # 保留2位小数
 print(f"最小瞬时心率: {min(instant_heartrate):.2f} bpm")
 print(f"平均心率: {average_heartrate:.2f} bpm")
+
+# 异常检测
+abnormal_results = abnormal.detect_abnormal_ecg(instant_heartrate)
+print(f"异常检测结果: {abnormal_results['status']}, HRV: {abnormal_results['hrv']:.2f}")
