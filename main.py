@@ -3,6 +3,7 @@ import draw
 import filter
 import rwave
 import matplotlib.pyplot as plt
+import beat
 
 # 载入数据
 origin = dataloader.ECGDataLoader(record_id='100')  # 这里record_id是数据源序号，我选择100号数据
@@ -20,3 +21,9 @@ rwave_indices = rwave.find_rwave(filtered.signal, filtered.fs)
 print(f"R波检测完成，全段共检测到 {len(rwave_indices)} 个点")
 print(f"前5个R波的索引为: {rwave_indices[:5]}")
 draw.draw_signal(filtered, start=0, duration=5, title="R波标记的心电", rwave=rwave_indices)
+
+# 算心率
+rr_interval_time, instant_heartrate, average_heartrate = beat.get_heartrate(rwave_indices, filtered.fs)
+print(f"最大瞬时心率: {max(instant_heartrate):.2f} bpm") # 保留2位小数
+print(f"最小瞬时心率: {min(instant_heartrate):.2f} bpm")
+print(f"平均心率: {average_heartrate:.2f} bpm")
