@@ -10,7 +10,6 @@ def draw_signal(loader, start = 0, duration = 5, title="心电", rwave = None): 
     start_index = int(start * loader.fs)
     end_index = int((start + duration) * loader.fs)
     # 生成时间轴，总时间长度为样本长度/采样率
-    segment_length = len(loader.signal[start_index:end_index])
     time_axis = np.arange(start_index, end_index) / loader.fs # 将样本索引转换为时间（秒）
     # 绘制 ECG 信号
     plt.figure(figsize=(15, 5))

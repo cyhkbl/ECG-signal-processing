@@ -1,6 +1,6 @@
 import numpy as np
 
-def detect_abnormal_ecg(bpm_list):
+def detect_abnormal_ecg(bpm_list, rr_intervals):
     # 定义正常心率范围
     normal_min = 60
     normal_max = 100
@@ -23,7 +23,7 @@ def detect_abnormal_ecg(bpm_list):
         results["status"] = "心律过速"
 
     # 心率变异性分析
-    hrv = np.std(bpm_list)
-    results["hrv"] = hrv
+    sdnn = np.std(rr_intervals)
+    results["hrv"] = sdnn
     
     return results
